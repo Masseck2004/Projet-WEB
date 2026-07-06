@@ -1,0 +1,93 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Modifier' if formation else 'Ajouter' }} une formation — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <span class="eyebrow">Formations</span>
+  <h2>{{ 'Modifier la formation' if formation else 'Ajouter une formation' }}</h2>
+</div>
+
+<form method="POST" class="card card--padded">
+  <div class="form-grid form-grid--2">
+    <div class="form-field">
+      <label for="nom">Nom de la formation *</label>
+      <input type="text" id="nom" name="nom" required value="{{ formation['nom'] if formation else '' }}">
+    </div>
+    <div class="form-field">
+      <label for="departement_id">Département *</label>
+      <select id="departement_id" name="departement_id" required>
+        {% set dep_actuel = formation['departement_id'] if formation else None %}
+        {% for dep in departements %}
+        <option value="{{ dep['id'] }}" {% if dep_actuel==dep['id'] %}selected{% endif %}>{{ dep['nom'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-grid form-grid--2">
+    <div class="form-field">
+      <label for="niveau">Niveau</label>
+      <input type="text" id="niveau" name="niveau" placeholder="Ex : Licence (L1-L3)"
+             value="{{ formation['niveau'] if formation else '' }}">
+    </div>
+    <div class="form-field">
+      <label for="duree">Durée</label>
+      <input type="text" id="duree" name="duree" placeholder="Ex : 3 ans"
+             value="{{ formation['duree'] if formation else '' }}">
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="conditions_admission">Conditions d'admission</label>
+    <textarea id="conditions_admission" name="conditions_admission">{{ formation['conditions_admission'] if formation else '' }}</textarea>
+  </div>
+
+  <div class="form-field">
+    <label for="debouches">Débouchés</label>
+    <textarea id="debouches" name="debouches">{{ formation['debouches'] if formation else '' }}</textarea>
+  </div>
+
+  <button type="submit" class="btn btn--primary">{{ 'Enregistrer les modifications' if formation else 'Ajouter la formation' }}</button>
+  <a class="btn btn--ghost" href="{{ url_for('admin_formations') }}">Annuler</a>
+</form>
+
+{% if formation %}
+<div class="card card--programme">
+  <h3>Programme par semestre</h3>
+
+  {% if programme %}
+    {% for semestre, modules in programme.items() %}
+    <div class="semestre-groupe">
+      <h4>Semestre {{ semestre }}</h4>
+      <ul class="module-list">
+        {% for module in modules %}
+        <li>
+          {{ module['nom_module'] }}
+          <form method="POST" action="{{ url_for('admin_module_supprimer', module_id=module['id']) }}"
+                data-confirm="Supprimer ce module ?">
+            <button type="submit" class="btn btn--small btn--danger">Suppr.</button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="empty-state">Aucun module renseigné pour cette formation.</p>
+  {% endif %}
+
+  <form method="POST" action="{{ url_for('admin_module_ajouter', formation_id=formation['id']) }}"
+        class="form-grid form-grid--2 form-grid--align-end">
+    <div class="form-field">
+      <label for="semestre">Semestre</label>
+      <input type="number" id="semestre" name="semestre" min="1" max="10" required>
+    </div>
+    <div class="form-field">
+      <label for="nom_module">Nom du module</label>
+      <input type="text" id="nom_module" name="nom_module" required>
+    </div>
+    <button type="submit" class="btn btn--primary">Ajouter le module</button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

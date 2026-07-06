@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Logo UFR STA">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B3D62"/>
+      <stop offset="100%" stop-color="#0E7C7B"/>
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="56" fill="url(#g1)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="#D9763F" stroke-width="3"/>
+  <path d="M30 50 L60 36 L90 50 L60 64 Z" fill="#F6F4EF"/>
+  <path d="M30 50 V70" stroke="#F6F4EF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M90 50 V70" stroke="#F6F4EF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M44 58 V76 C44 84 76 84 76 76 V58" fill="none" stroke="#F6F4EF" stroke-width="3"/>
+  <text x="60" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#F6F4EF" font-weight="bold">STA</text>
+</svg>

@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+{% block title %}Ajouter un album — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <span class="eyebrow">Galerie</span>
+  <h2>Ajouter un album</h2>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="card card--padded">
+  <div class="form-grid form-grid--2">
+    <div class="form-field">
+      <label for="titre">Titre de l'album *</label>
+      <input type="text" id="titre" name="titre" required>
+    </div>
+    <div class="form-field">
+      <label for="date_album">Date</label>
+      <input type="date" id="date_album" name="date_album">
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="description">Description</label>
+    <textarea id="description" name="description"></textarea>
+  </div>
+
+  <div class="form-field">
+    <label for="photos">Photos de l'album</label>
+    <input type="file" id="photos" name="photos" accept="image/*" multiple>
+    <small>Vous pouvez sélectionner plusieurs photos à la fois.</small>
+  </div>
+
+  <button type="submit" class="btn btn--primary">Créer l'album</button>
+  <a class="btn btn--ghost" href="{{ url_for('admin_galerie') }}">Annuler</a>
+</form>
+{% endblock %}

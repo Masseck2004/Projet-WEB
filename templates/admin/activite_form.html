@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Modifier' if activite else 'Ajouter' }} une activité — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <span class="eyebrow">Activités</span>
+  <h2>{{ "Modifier l'activité" if activite else 'Ajouter une activité' }}</h2>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="card card--padded">
+  <div class="form-grid form-grid--2">
+    <div class="form-field">
+      <label for="titre">Titre de l'activité *</label>
+      <input type="text" id="titre" name="titre" required value="{{ activite['titre'] if activite else '' }}">
+    </div>
+    <div class="form-field">
+      <label for="date_activite">Date *</label>
+      <input type="date" id="date_activite" name="date_activite" required
+             value="{{ activite['date_activite'] if activite else '' }}">
+    </div>
+  </div>
+
+  <div class="form-grid form-grid--2">
+    <div class="form-field">
+      <label for="lieu">Lieu</label>
+      <input type="text" id="lieu" name="lieu" value="{{ activite['lieu'] if activite else '' }}">
+    </div>
+    <div class="form-field">
+      <label for="organisateur">Organisateur</label>
+      <input type="text" id="organisateur" name="organisateur" value="{{ activite['organisateur'] if activite else '' }}">
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="type_activite">Type d'activité</label>
+    {% set type_actuel = activite['type_activite'] if activite else 'atelier' %}
+    <select id="type_activite" name="type_activite">
+      <option value="visite" {% if type_actuel=='visite' %}selected{% endif %}>Visite</option>
+      <option value="conference" {% if type_actuel=='conference' %}selected{% endif %}>Conférence</option>
+      <option value="atelier" {% if type_actuel=='atelier' %}selected{% endif %}>Atelier</option>
+      <option value="formation" {% if type_actuel=='formation' %}selected{% endif %}>Formation</option>
+      <option value="competition" {% if type_actuel=='competition' %}selected{% endif %}>Compétition</option>
+      <option value="sortie" {% if type_actuel=='sortie' %}selected{% endif %}>Sortie pédagogique</option>
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="description">Description complète</label>
+    <textarea id="description" name="description">{{ activite['description'] if activite else '' }}</textarea>
+  </div>
+
+  {% if activite and photos %}
+  <div class="form-field">
+    <label>Photos actuelles</label>
+    <div class="photo-grid">
+      {% for photo in photos %}
+      <div class="photo-item">
+        <img src="{{ url_for('static', filename='images/' + photo['filename']) }}" alt="Photo de l'activité">
+        <form method="POST" action="{{ url_for('admin_activite_photo_supprimer', photo_id=photo['id']) }}"
+              data-confirm="Supprimer cette photo ?" class="photo-item__delete">
+          <button type="submit" class="btn btn--small btn--danger">Suppr.</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="form-field">
+    <label for="photos">{{ 'Ajouter des photos' if activite else 'Galerie photos' }}</label>
+    <input type="file" id="photos" name="photos" accept="image/*" multiple>
+    <small>Vous pouvez sélectionner plusieurs photos à la fois.</small>
+  </div>
+
+  <button type="submit" class="btn btn--primary">{{ 'Enregistrer les modifications' if activite else "Publier l'activité" }}</button>
+  <a class="btn btn--ghost" href="{{ url_for('admin_activites') }}">Annuler</a>
+</form>
+{% endblock %}

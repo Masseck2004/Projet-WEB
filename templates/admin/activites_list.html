@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% block title %}Gestion des activités — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header--flex">
+  <div>
+    <span class="eyebrow">Activités</span>
+    <h2>Gérer le journal des activités</h2>
+  </div>
+  <a class="btn btn--primary" href="{{ url_for('admin_activite_ajouter') }}">+ Ajouter une activité</a>
+</div>
+
+{% if activites %}
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Lieu</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for activite in activites %}
+      <tr>
+        <td>{{ activite['titre'] }}</td>
+        <td><span class="badge">{{ activite['type_activite'] }}</span></td>
+        <td>{{ activite['date_activite'] }}</td>
+        <td>{{ activite['lieu'] }}</td>
+        <td class="actions-cell">
+          <a class="btn btn--small btn--ghost" href="{{ url_for('activite_detail', activite_id=activite['id']) }}">Voir</a>
+          <a class="btn btn--small btn--outline" href="{{ url_for('admin_activite_modifier', activite_id=activite['id']) }}">Modifier</a>
+          <form method="POST" action="{{ url_for('admin_activite_supprimer', activite_id=activite['id']) }}" data-confirm="Supprimer cette activité ?">
+            <button type="submit" class="btn btn--small btn--danger">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="empty-state">Aucune activité enregistrée. Commencez par en ajouter une.</p>
+{% endif %}
+{% endblock %}

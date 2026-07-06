@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Contact — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / Contact</div>
+    <span class="eyebrow eyebrow--accent">À votre écoute</span>
+    <h1>Contactez l'UFR STA</h1>
+    <p>Une question sur nos formations, nos activités ou un projet de partenariat ? Écrivez-nous.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--680">
+    <form method="POST" action="{{ url_for('contact') }}" novalidate>
+      <div class="form-grid form-grid--2">
+        <div class="form-field">
+          <label for="nom">Nom complet *</label>
+          <input type="text" id="nom" name="nom" required value="{{ form_data.get('nom', '') }}">
+        </div>
+        <div class="form-field">
+          <label for="email">Adresse email *</label>
+          <input type="email" id="email" name="email" required value="{{ form_data.get('email', '') }}">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="sujet">Sujet</label>
+        <input type="text" id="sujet" name="sujet" value="{{ form_data.get('sujet', '') }}">
+      </div>
+
+      <div class="form-field">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" required>{{ form_data.get('message', '') }}</textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary">Envoyer le message</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

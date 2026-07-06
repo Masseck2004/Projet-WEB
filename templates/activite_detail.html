@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ activite['titre'] }} — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / <a href="{{ url_for('activites') }}">Activités</a> / {{ activite['titre'] }}</div>
+    <span class="eyebrow eyebrow--accent">{{ activite['type_activite'] }}</span>
+    <h1>{{ activite['titre'] }}</h1>
+    <p>{{ activite['date_activite'] }} · {{ activite['lieu'] }} · Organisé par {{ activite['organisateur'] }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--900">
+    <p>{{ activite['description'] }}</p>
+
+    <div class="section-header">
+      <span class="eyebrow">Galerie</span>
+      <h2>Photos de l'activité</h2>
+    </div>
+
+    {% if photos %}
+    <div class="photo-grid">
+      {% for photo in photos %}
+      <img src="{{ url_for('static', filename='images/' + photo['filename']) }}" alt="Photo de l'activité {{ activite['titre'] }}">
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucune photo n'a encore été ajoutée pour cette activité.</p>
+    {% endif %}
+
+    <a class="btn btn--ghost mt-lg" href="{{ url_for('activites') }}">&larr; Retour au journal des activités</a>
+  </div>
+</section>
+{% endblock %}

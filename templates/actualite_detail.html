@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ actualite['titre'] }} — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / <a href="{{ url_for('actualites') }}">Actualités</a> / {{ actualite['titre'] }}</div>
+    <span class="eyebrow eyebrow--accent">{{ actualite['categorie'] }}</span>
+    <h1>{{ actualite['titre'] }}</h1>
+    <p>Publié le {{ actualite['date_publication'] }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--760">
+    <img src="{{ url_for('static', filename='images/' + actualite['photo']) }}" alt="" class="article-img">
+    <p>{{ actualite['description'] }}</p>
+    <a class="btn btn--ghost" href="{{ url_for('actualites') }}">&larr; Retour aux actualités</a>
+  </div>
+</section>
+{% endblock %}

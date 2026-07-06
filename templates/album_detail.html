@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ album['titre'] }} — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / <a href="{{ url_for('galerie') }}">Galerie</a> / {{ album['titre'] }}</div>
+    <span class="eyebrow eyebrow--accent">Album · {{ album['date_album'] }}</span>
+    <h1>{{ album['titre'] }}</h1>
+    <p>{{ album['description'] }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% if photos %}
+    <div class="photo-grid">
+      {% for photo in photos %}
+      <img src="{{ url_for('static', filename='images/' + photo['filename']) }}" alt="Photo de l'album {{ album['titre'] }}">
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucune photo dans cet album pour le moment.</p>
+    {% endif %}
+
+    <a class="btn btn--ghost mt-lg" href="{{ url_for('galerie') }}">&larr; Retour à la galerie</a>
+  </div>
+</section>
+{% endblock %}

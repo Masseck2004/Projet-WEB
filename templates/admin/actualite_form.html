@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Modifier' if actualite else 'Ajouter' }} une actualité — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <span class="eyebrow">Actualités</span>
+  <h2>{{ "Modifier l'actualité" if actualite else 'Ajouter une actualité' }}</h2>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="card card--padded">
+  <div class="form-grid form-grid--2">
+    <div class="form-field">
+      <label for="titre">Titre *</label>
+      <input type="text" id="titre" name="titre" required value="{{ actualite['titre'] if actualite else '' }}">
+    </div>
+    <div class="form-field">
+      <label for="date_publication">Date de publication *</label>
+      <input type="date" id="date_publication" name="date_publication" required
+             value="{{ actualite['date_publication'] if actualite else '' }}">
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="categorie">Catégorie</label>
+    <select id="categorie" name="categorie">
+      {% set cat = actualite['categorie'] if actualite else 'actualite' %}
+      <option value="seminaire" {% if cat=='seminaire' %}selected{% endif %}>Séminaire</option>
+      <option value="conference" {% if cat=='conference' %}selected{% endif %}>Conférence</option>
+      <option value="soutenance" {% if cat=='soutenance' %}selected{% endif %}>Soutenance</option>
+      <option value="appel" {% if cat=='appel' %}selected{% endif %}>Appel à candidature</option>
+      <option value="resultat" {% if cat=='resultat' %}selected{% endif %}>Résultat</option>
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="description">Description</label>
+    <textarea id="description" name="description">{{ actualite['description'] if actualite else '' }}</textarea>
+  </div>
+
+  <div class="form-field">
+    <label for="photo">Photo</label>
+    <input type="file" id="photo" name="photo" accept="image/*">
+    <small>
+      {% if actualite %}Laissez vide pour conserver la photo actuelle.{% else %}Format JPG, PNG ou WEBP, 5 Mo maximum.{% endif %}
+    </small>
+  </div>
+
+  <button type="submit" class="btn btn--primary">{{ "Enregistrer les modifications" if actualite else "Publier l'actualité" }}</button>
+  <a class="btn btn--ghost" href="{{ url_for('admin_actualites') }}">Annuler</a>
+</form>
+{% endblock %}

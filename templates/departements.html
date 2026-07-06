@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Départements — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / Départements</div>
+    <span class="eyebrow eyebrow--accent">Organisation</span>
+    <h1>Nos départements</h1>
+    <p>L'UFR STA est organisée en trois départements complémentaires,
+       chacun porteur de plusieurs formations.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3">
+      {% for dep in departements %}
+      <div class="card">
+        <div class="card__body">
+          <span class="card__meta">Responsable : {{ dep['responsable'] }}</span>
+          <h3>{{ dep['nom'] }}</h3>
+          <p>{{ dep['description'] }}</p>
+          <a class="btn btn--ghost btn--small" href="{{ url_for('departement_detail', dep_id=dep['id']) }}">Voir les formations</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

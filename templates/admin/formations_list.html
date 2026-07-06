@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% block title %}Gestion des formations — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header--flex">
+  <div>
+    <span class="eyebrow">Formations</span>
+    <h2>Gérer les formations</h2>
+  </div>
+  <a class="btn btn--primary" href="{{ url_for('admin_formation_ajouter') }}">+ Ajouter une formation</a>
+</div>
+
+{% if formations %}
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Formation</th>
+        <th>Département</th>
+        <th>Niveau</th>
+        <th>Durée</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for f in formations %}
+      <tr>
+        <td>{{ f['nom'] }}</td>
+        <td>{{ f['departement_nom'] }}</td>
+        <td>{{ f['niveau'] }}</td>
+        <td>{{ f['duree'] }}</td>
+        <td class="actions-cell">
+          <a class="btn btn--small btn--ghost" href="{{ url_for('formation_detail', formation_id=f['id']) }}">Voir</a>
+          <a class="btn btn--small btn--outline" href="{{ url_for('admin_formation_modifier', formation_id=f['id']) }}">Modifier</a>
+          <form method="POST" action="{{ url_for('admin_formation_supprimer', formation_id=f['id']) }}" data-confirm="Supprimer cette formation ?">
+            <button type="submit" class="btn btn--small btn--danger">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="empty-state">Aucune formation enregistrée.</p>
+{% endif %}
+{% endblock %}

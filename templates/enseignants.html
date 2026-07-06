@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Enseignants — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / Enseignants</div>
+    <span class="eyebrow eyebrow--accent">Équipe pédagogique</span>
+    <h1>Nos enseignants</h1>
+    <p>Une équipe pluridisciplinaire engagée dans la formation et la recherche.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% if enseignants %}
+    <div class="grid grid--3">
+      {% for enseignant in enseignants %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' + enseignant['photo']) }}" alt="Photo de {{ enseignant['nom'] }}">
+        <div class="card__body">
+          <span class="card__meta">{{ enseignant['departement_nom'] }}</span>
+          <h3>{{ enseignant['nom'] }}</h3>
+          <p>{{ enseignant['grade'] }}<br>
+             Domaines de recherche : {{ enseignant['domaines_recherche'] }}</p>
+          <a href="mailto:{{ enseignant['email'] }}">{{ enseignant['email'] }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucun enseignant enregistré pour le moment.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

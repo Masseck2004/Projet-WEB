@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Actualités — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / Actualités</div>
+    <span class="eyebrow eyebrow--accent">Information</span>
+    <h1>Actualités de l'UFR</h1>
+    <p>Séminaires, conférences, soutenances, appels à candidature et résultats.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% if actualites %}
+    <div class="grid grid--3">
+      {% for actu in actualites %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' + actu['photo']) }}" alt="">
+        <div class="card__body">
+          <span class="badge">{{ actu['categorie'] }}</span>
+          <span class="card__meta">{{ actu['date_publication'] }}</span>
+          <h3>{{ actu['titre'] }}</h3>
+          <p>{{ actu['description'][:130] }}{% if actu['description']|length > 130 %}…{% endif %}</p>
+          <a class="btn btn--ghost btn--small" href="{{ url_for('actualite_detail', actu_id=actu['id']) }}">Lire la suite</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucune actualité publiée pour le moment.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

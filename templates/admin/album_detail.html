@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+{% block title %}Photos de l'album — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <span class="eyebrow">Galerie</span>
+  <h2>Photos de l'album « {{ album['titre'] }} »</h2>
+</div>
+
+{% if photos %}
+<div class="photo-grid">
+  {% for photo in photos %}
+  <div class="photo-item">
+    <img src="{{ url_for('static', filename='images/' + photo['filename']) }}" alt="Photo de l'album {{ album['titre'] }}">
+    <form method="POST" action="{{ url_for('admin_album_photo_supprimer', photo_id=photo['id']) }}"
+          data-confirm="Supprimer cette photo ?" class="photo-item__delete">
+      <button type="submit" class="btn btn--small btn--danger">Supprimer</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty-state">Cet album ne contient aucune photo pour le moment.</p>
+{% endif %}
+
+<a class="btn btn--ghost mt-lg" href="{{ url_for('admin_galerie') }}">&larr; Retour aux albums</a>
+{% endblock %}

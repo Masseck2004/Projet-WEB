@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Activités — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / Activités</div>
+    <span class="eyebrow eyebrow--accent">Vie de l'UFR</span>
+    <h1>Journal des activités</h1>
+    <p>Visites, conférences, ateliers, formations, compétitions et sorties pédagogiques.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% if activites %}
+    <div class="grid grid--3">
+      {% for activite in activites %}
+      <div class="card">
+        <div class="card__body">
+          <span class="badge">{{ activite['type_activite'] }}</span>
+          <span class="card__meta">{{ activite['date_activite'] }} · {{ activite['lieu'] }}</span>
+          <h3>{{ activite['titre'] }}</h3>
+          <p>{{ activite['description'][:130] }}{% if activite['description']|length > 130 %}…{% endif %}</p>
+          <a class="btn btn--ghost btn--small" href="{{ url_for('activite_detail', activite_id=activite['id']) }}">Voir le compte-rendu</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucune activité publiée pour le moment.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "admin/base.html" %}
+{% block title %}Gestion de la galerie — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header--flex">
+  <div>
+    <span class="eyebrow">Galerie</span>
+    <h2>Gérer les albums photos</h2>
+  </div>
+  <a class="btn btn--primary" href="{{ url_for('admin_album_ajouter') }}">+ Ajouter un album</a>
+</div>
+
+{% if albums %}
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Album</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for album in albums %}
+      <tr>
+        <td>{{ album['titre'] }}</td>
+        <td>{{ album['date_album'] }}</td>
+        <td class="actions-cell">
+          <a class="btn btn--small btn--ghost" href="{{ url_for('album_detail', album_id=album['id']) }}">Voir</a>
+          <a class="btn btn--small btn--outline" href="{{ url_for('admin_album_detail', album_id=album['id']) }}">Gérer les photos</a>
+          <form method="POST" action="{{ url_for('admin_album_supprimer', album_id=album['id']) }}" data-confirm="Supprimer cet album et toutes ses photos ?">
+            <button type="submit" class="btn btn--small btn--danger">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="empty-state">Aucun album enregistré.</p>
+{% endif %}
+{% endblock %}

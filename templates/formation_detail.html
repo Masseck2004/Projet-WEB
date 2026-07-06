@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ formation['nom'] }} — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / <a href="{{ url_for('formations') }}">Formations</a> / {{ formation['nom'] }}</div>
+    <span class="eyebrow eyebrow--accent">{{ formation['departement_nom'] }}</span>
+    <h1>{{ formation['nom'] }}</h1>
+    <p>{{ formation['niveau'] }} · {{ formation['duree'] }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--2 grid--mb-xl">
+      <div class="card"><div class="card__body">
+        <span class="card__meta">Conditions d'admission</span>
+        <p class="p-0">{{ formation['conditions_admission'] or 'Non renseigné' }}</p>
+      </div></div>
+      <div class="card"><div class="card__body">
+        <span class="card__meta">Débouchés</span>
+        <p class="p-0">{{ formation['debouches'] or 'Non renseigné' }}</p>
+      </div></div>
+    </div>
+
+    <div class="section-header">
+      <span class="eyebrow">Programme</span>
+      <h2>Programme détaillé par semestre</h2>
+    </div>
+
+    {% if programme %}
+    <div class="programme-grid">
+      {% for semestre, modules in programme.items() %}
+      <div class="semestre-card">
+        <h4>Semestre {{ semestre }}</h4>
+        <ul>
+          {% for module in modules %}
+          <li>{{ module }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Le programme détaillé de cette formation sera bientôt disponible.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

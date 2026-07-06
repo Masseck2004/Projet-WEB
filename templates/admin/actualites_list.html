@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% block title %}Gestion des actualités — Administration{% endblock %}
+
+{% block content %}
+<div class="section-header--flex">
+  <div>
+    <span class="eyebrow">Actualités</span>
+    <h2>Gérer les actualités</h2>
+  </div>
+  <a class="btn btn--primary" href="{{ url_for('admin_actualite_ajouter') }}">+ Ajouter une actualité</a>
+</div>
+
+{% if actualites %}
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Catégorie</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for actu in actualites %}
+      <tr>
+        <td>{{ actu['titre'] }}</td>
+        <td><span class="badge">{{ actu['categorie'] }}</span></td>
+        <td>{{ actu['date_publication'] }}</td>
+        <td class="actions-cell">
+          <a class="btn btn--small btn--ghost" href="{{ url_for('admin_actualite_modifier', actu_id=actu['id']) }}">Modifier</a>
+          <form method="POST" action="{{ url_for('admin_actualite_supprimer', actu_id=actu['id']) }}" data-confirm="Supprimer cette actualité ?">
+            <button type="submit" class="btn btn--small btn--danger">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="empty-state">Aucune actualité enregistrée. Commencez par en ajouter une.</p>
+{% endif %}
+{% endblock %}

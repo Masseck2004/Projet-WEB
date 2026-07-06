@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ nom_ufr }}{% endblock %}</title>
+  <meta name="description" content="Site officiel de l'UFR Sciences et Technologies Avancées (STA) : formations, actualités, activités et vie de l'UFR.">
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div id="preloader" class="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <div class="preloader__ring">
+        <img class="preloader__logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="">
+      </div>
+      <span class="preloader__text">UFR STA</span>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#contenu-principal">Aller au contenu principal</a>
+
+  <header class="site-header">
+    {% if ticker_items %}
+    <div class="news-ticker" aria-label="Dernières actualités">
+      <div class="news-ticker__track">
+        {% for item in ticker_items + ticker_items %}
+          <span><span class="news-ticker__label">Actu</span><a href="{{ url_for('actualite_detail', actu_id=item['id']) }}">{{ item['titre'] }}</a></span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <nav class="navbar" aria-label="Navigation principale">
+      <a class="brand" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="">
+        <span class="brand-text">
+          <strong>UFR STA</strong>
+          <span>Sciences et Technologies Avancées</span>
+        </span>
+      </a>
+
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span>
+      </button>
+
+      <div class="main-nav">
+        <a href="{{ url_for('index') }}" {% if request.endpoint=='index' %}class="active"{% endif %}>Accueil</a>
+        <a href="{{ url_for('departements') }}" {% if request.endpoint and request.endpoint.startswith('departement') %}class="active"{% endif %}>Départements</a>
+        <a href="{{ url_for('formations') }}" {% if request.endpoint and request.endpoint.startswith('formation') %}class="active"{% endif %}>Formations</a>
+        <a href="{{ url_for('actualites') }}" {% if request.endpoint and request.endpoint.startswith('actualite') %}class="active"{% endif %}>Actualités</a>
+        <a href="{{ url_for('activites') }}" {% if request.endpoint and request.endpoint.startswith('activite') %}class="active"{% endif %}>Activités</a>
+        <a href="{{ url_for('galerie') }}" {% if request.endpoint and (request.endpoint.startswith('galerie') or request.endpoint.startswith('album')) %}class="active"{% endif %}>Galerie</a>
+        <a href="{{ url_for('enseignants') }}" {% if request.endpoint=='enseignants' %}class="active"{% endif %}>Enseignants</a>
+        <a href="{{ url_for('contact') }}" {% if request.endpoint=='contact' %}class="active"{% endif %}>Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenu-principal">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container">
+          <ul class="flash-list">
+            {% for category, message in messages %}
+              <li class="flash flash--{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>UFR STA</h4>
+          <p>Faculté tournée vers les sciences et technologies avancées,
+            l'UFR STA forme les ingénieurs, chercheurs et enseignants
+            de demain dans les domaines de l'informatique, des
+            mathématiques et de la physique.</p>
+        </div>
+        <div>
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="{{ url_for('departements') }}">Départements</a></li>
+            <li><a href="{{ url_for('formations') }}">Formations</a></li>
+            <li><a href="{{ url_for('actualites') }}">Actualités</a></li>
+            <li><a href="{{ url_for('activites') }}">Activités</a></li>
+            <li><a href="{{ url_for('galerie') }}">Galerie photos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li>UAM - UFR STA</li>
+            <li><a href="mailto:contact@ufr-sta.uam.sn">contact@ufr-sta.uam.sn</a></li>
+            <li><a href="{{ url_for('contact') }}">Formulaire de contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; {{ current_year }} UFR STA — UAM. Tous droits réservés. ·
+        <a href="{{ url_for('admin_login') }}">Espace administration</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox-overlay" aria-hidden="true">
+    <button class="lightbox-close" aria-label="Fermer l'image">&times;</button>
+    <img src="" alt="">
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

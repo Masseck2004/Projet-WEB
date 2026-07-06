@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ departement['nom'] }} — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / <a href="{{ url_for('departements') }}">Départements</a> / {{ departement['nom'] }}</div>
+    <span class="eyebrow eyebrow--accent">Département</span>
+    <h1>{{ departement['nom'] }}</h1>
+    <p>{{ departement['description'] }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--2 grid--mb-xl">
+      <div class="card"><div class="card__body">
+        <span class="card__meta">Responsable</span>
+        <h3>{{ departement['responsable'] or 'Non renseigné' }}</h3>
+      </div></div>
+      <div class="card"><div class="card__body">
+        <span class="card__meta">Contact</span>
+        <h3>{{ departement['contact'] or 'Non renseigné' }}</h3>
+      </div></div>
+    </div>
+
+    <div class="section-header">
+      <span class="eyebrow">Formations</span>
+      <h2>Formations du département</h2>
+    </div>
+
+    {% if formations %}
+    <div class="grid grid--2">
+      {% for f in formations %}
+      <div class="card"><div class="card__body">
+        <span class="card__meta">{{ f['niveau'] }} · {{ f['duree'] }}</span>
+        <h3>{{ f['nom'] }}</h3>
+        <a class="btn btn--ghost btn--small" href="{{ url_for('formation_detail', formation_id=f['id']) }}">Voir le programme</a>
+      </div></div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucune formation enregistrée pour ce département.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

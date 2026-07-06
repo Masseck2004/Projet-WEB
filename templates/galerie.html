@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Galerie photos — {{ nom_ufr }}{% endblock %}
+
+{% block content %}
+<section class="hero hero--page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('index') }}">Accueil</a> / Galerie</div>
+    <span class="eyebrow eyebrow--accent">Souvenirs</span>
+    <h1>Galerie photos</h1>
+    <p>Les moments forts de l'UFR STA, organisés par albums.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% if albums %}
+    <div class="grid grid--3">
+      {% for album in albums %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' + album['couverture']) }}" alt="">
+        <div class="card__body">
+          <span class="card__meta">{{ album['date_album'] }}</span>
+          <h3>{{ album['titre'] }}</h3>
+          <p>{{ album['description'] }}</p>
+          <a class="btn btn--ghost btn--small" href="{{ url_for('album_detail', album_id=album['id']) }}">Voir l'album</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucun album publié pour le moment.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
