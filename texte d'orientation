@@ -1,15 +1,118 @@
-init_db.py
+===================================================================
+                TEXTE D'ORIENTATION - PROJET WEB
+              Site vitrine de l'UFR STA - UAM Dakar
+===================================================================
+REALISE PAR :
+- Masseck DIENG    -> Partie Frontend (HTML, CSS, animations)
+- Mamadou THIAM    -> Partie Backend (Flask, base de donnees, logique serveur)
+-------------------------------------------------------------------
+1. INTRODUCTION - A QUOI SERT CE PROJET
+-------------------------------------------------------------------
+Ce projet consiste a developper un site web vitrine pour l'UFR
+Sciences, Technologies & Applications (STA) de l'Universite Amadou
+Mahtar Mbow (UAM) de Dakar. Le site permet de presenter la faculte
+au grand public : ses departements, ses formations, ses actualites,
+ses activites, ses enseignants ainsi qu'une galerie photo des
+evenements. Il integre egalement un espace d'administration securise
+permettant au personnel de la faculte de gerer le contenu du site
+(ajout, modification et suppression d'actualites, d'activites, de
+formations et d'albums photo) sans avoir besoin de connaissances
+techniques particulieres.
+Le projet a ete developpe avec le framework Flask (Python), une
+base de donnees SQLite manipulee en SQL brut (sans ORM, conformement
+a la consigne du professeur), et des templates Jinja2 pour la partie
+affichage.
+-------------------------------------------------------------------
+2. STRUCTURE DU PROJET ET UTILITE DES DOSSIERS/FICHIERS
+-------------------------------------------------------------------
+ufr-sta/
+|
+|-- app.py
+|       Coeur de l'application Flask. Contient toutes les routes du
+|       site (pages publiques : accueil, departements, formations,
+|       actualites, activites, galerie, enseignants, contact) ainsi
+|       que les routes de l'espace admin (connexion, tableau de
+|       bord, ajout/modification/suppression de contenu). Gere aussi
+|       la connexion a la base de donnees et l'upload des images.
+|
+|-- init_db.py
+|       Script qui cree la base de donnees SQLite et la remplit avec
+|       des donnees d'exemple (departements, formations, actualites,
+|       activites, galerie, enseignants, compte administrateur).
+|       A relancer avec "python init_db.py" pour repartir d'une base
+|       propre (le fichier existant est supprime puis recree).
+|
+|-- requirements.txt
+|       Liste des bibliotheques Python necessaires au projet
+|       (Flask, Werkzeug, etc.), a installer avec :
+|       pip install -r requirements.txt
+|
+|-- database/
+|     |-- schema.sql      -> Definition SQL des tables de la base
+|     |                      (departements, formations, actualites,
+|     |                       activites, galerie, enseignants, admin).
+|     |-- ufr_sta.db       -> Fichier de la base de donnees SQLite
+|                              generee par init_db.py.
+|
+|-- static/
+|     |-- css/style.css   -> Feuille de style unique du site
+|     |                      (toutes les regles CSS centralisees,
+|     |                       classes nommees en francais).
+|     |-- js/main.js      -> Scripts JavaScript : animations au
+|     |                      defilement, preloader au premier
+|     |                      chargement, interactions diverses.
+|     |-- images/         -> Toutes les images du site (photos des
+|                             enseignants, activites, galerie,
+|                             logos UAM/STA, etc.), y compris le
+|                             sous-dossier "uploads/" ou sont
+|                             stockees les images ajoutees depuis
+|                             l'espace admin.
+|
+|-- templates/
+      |-- base.html               -> Gabarit principal (en-tete,
+      |                              menu de navigation, pied de
+      |                              page) herite par toutes les
+      |                              pages publiques.
+      |-- index.html               -> Page d'accueil.
+      |-- departements.html /
+      |   departement_detail.html  -> Liste et detail des departements.
+      |-- formations.html /
+      |   formation_detail.html    -> Liste et detail des formations.
+      |-- actualites.html /
+      |   actualite_detail.html    -> Liste et detail des actualites.
+      |-- activites.html /
+      |   activite_detail.html     -> Liste et detail des activites.
+      |-- galerie.html /
+      |   album_detail.html        -> Galerie photo par albums.
+      |-- enseignants.html         -> Presentation des enseignants.
+      |-- contact.html             -> Formulaire de contact.
+      |-- 404.html                 -> Page d'erreur personnalisee.
+      |-- admin/                   -> Toutes les pages de l'espace
+                                       administrateur : connexion
+                                       (login.html), tableau de bord
+                                       (dashboard.html), et les pages
+                                       de gestion (ajout/liste/
+                                       modification) des actualites,
+                                       activites, formations et de la
+                                       galerie.
 
-Role : Cree la base de donnees SQLite du site et la remplit avec des donnees
-d'exemple (departements, formations, programme, actualites, activites,
-galerie, enseignants, compte admin).
-Usage : python init_db.py
-A relancer chaque fois que vous voulez repartir d'une base "propre"
-(le fichier existant sera supprime puis recree).
-app.py
+-------------------------------------------------------------------
+3. REPARTITION DU TRAVAIL
+-------------------------------------------------------------------
+- Masseck DIENG (Frontend) : integration des templates HTML/Jinja2,
+  mise en forme CSS, animations au defilement, preloader, coherence
+  visuelle et responsive du site, correction des contrastes et de
+  l'ergonomie de l'interface (public et admin).
 
-Application Flask du site vitrine de l'UFR STA.
-Contraintes du projet :
-- Flask -> on utilise le module sqlite3
-  de la bibliotheque standard avec des requetes SQL.
-- Cote base de donnees : voir database/schema.sql et init_db.py
+- Mamadou THIAM (Backend) : conception de la base de donnees,
+  ecriture des routes Flask, logique metier (CRUD pour actualites,
+  activites, formations, galerie), authentification de l'espace
+  admin, gestion des uploads d'images et securisation des acces.
+
+-------------------------------------------------------------------
+4. CAPTURES D'ECRAN
+-------------------------------------------------------------------
+Voir le dossier "captures/" joint qui contient des captures d'ecran
+des principales pages du site : accueil, departements, formations,
+actualites, activites, galerie, enseignants, contact et page de
+connexion admin.
